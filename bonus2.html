@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>Colors</title>
+    <style>
+        body{
+            background-color: rgba(100, 65, 230, 0.1);
+        }
+        #output{
+            width: 65%;
+            height: 500px;
+            border: black solid 2px;
+        }
+        p{
+            margin: 10px 10px;
+            font-size: 26px;
+        }
+        #red{
+            background-image: linear-gradient(90deg, black, red);
+            -webkit-appearance: none;
+        }
+        #green{
+            background-image: linear-gradient(90deg, black, green);
+            -webkit-appearance: none;
+        }
+        #blue{
+            background-image: linear-gradient(90deg, black, blue);
+            -webkit-appearance: none;
+        }
+        input[type=number]{
+            text-align: center;
+            height: 30px;
+            flex-grow: 1;
+        }
+        input[type=range]{
+            height: 40px;
+            margin: 0 0 0 15px;
+            flex-grow: 11;
+        }
+        input[type=range]::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            height: 35px;
+            width: 10px;
+            border-radius: 5px;
+        }
+        .rgb{
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            display: flex;
+            width: 65%;
+        }
+    </style>
+</head>
+<body>
+<h1>Colors RGB</h1>
+<div id="output">
+
+</div>
+
+<div class="rgb">
+    <input type="number" min="0" max="255" value="75" id="red-num" data-color="red">
+    <input type="range" min="0" max="255" value="75" id="red" data-color="red">
+</div>
+<div class="rgb">
+    <input type="number" min="0" max="255" value="180" id="green-num" data-color="green">
+    <input type="range" min="0" max="255" value="180" id="green" data-color="green">
+</div>
+<div class="rgb">
+    <input type="number" min="0" max="255" value="215" id="blue-num" data-color="blue">
+    <input type="range" min="0" max="255" value="215" id="blue" data-color="blue">
+</div>
+
+<script>
+    let red, green, blue = 0
+
+    let elementRN = document.getElementById('red-num')
+    let elementR = document.getElementById('red')
+    let elementGN = document.getElementById('green-num')
+    let elementG = document.getElementById('green')
+    let elementBN = document.getElementById('blue-num')
+    let elementB = document.getElementById('blue')
+    let output = document.getElementById('output')
+
+    function mixer(){
+        output.innerHTML = `<p>${elementRN.value}, ${elementGN.value}, ${elementBN.value}</p>`
+        output.innerHTML += `<p>#${Number(elementRN.value).toString(16)}${Number(elementGN.value).toString(16)}${Number(elementBN.value).toString(16)}</p>`
+        let color = `${elementRN.value}, ${elementGN.value}, ${elementBN.value}`
+        output.style.backgroundColor = `rgb(${color})`
+
+        if (this.dataset.color === 'red') {
+            elementRN.value = this.value
+            elementR.value = this.value
+        }
+        if (this.dataset.color === 'green') {
+            elementGN.value = this.value
+            elementG.value = this.value
+        }
+        if (this.dataset.color === 'blue') {
+            elementBN.value = this.value
+            elementB.value = this.value
+        }
+        let bright = 0.2126 * elementR.value + 0.7152 * elementG.value + 0.0722 * elementB.value;
+        if (bright < 120) {
+            output.style.color = 'white'
+        } else {
+            output.style.color = 'black'
+        }
+    }
+
+    elementRN.addEventListener('input', mixer)
+    elementR.addEventListener('input', mixer)
+    elementGN.addEventListener('input', mixer)
+    elementG.addEventListener('input', mixer)
+    elementBN.addEventListener('input', mixer)
+    elementB.addEventListener('input', mixer)
+
+    mixer()
+</script>
+</body>
+</html>
